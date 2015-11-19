@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">swipeViewsWithTabs</string>
+    <string name="home_text">This is Homepage</string>
+    <string name="boxpage_text">This is boxPage</string>
+    <string name="favoritepage_text">This is favorite page</string>
+    <string name="personalpage_text">This is personal page</string>
+</resources>
