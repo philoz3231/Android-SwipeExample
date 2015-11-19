@@ -1,16 +1,16 @@
 package junho.swipeviewswithtabs;
 
 import android.app.ActionBar;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentPagerAdapter;
+
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.support.v7.widget.ActionBarOverlayLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,25 +25,29 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //페이저어댑터생성
         mMainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
-
+        //액션바 가져오기와 설정
         final ActionBar actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
+
+        //뷰페이져 위젯에 어댑터 연결+페이지전환리스너 설정
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mMainPagerAdapter);
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
+               getActionBar().setSelectedNavigationItem(position);
             }
         });
-
+        //액션바에 탭붙이기, 타이틀 설정
         for (int i = 0; i < mMainPagerAdapter.getCount(); i++) {
             actionBar.addTab(
                     actionBar.newTab()
-                            .setText(mMainPagerAdapter.getPageTitle(i))
+                            .setIcon(R.drawable.mainpage_editorplus_send)
+                            //.setText(mMainPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
     }
@@ -52,7 +56,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
-
+    //탭이 클릭됐을 때 선택될 탭 설정
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         mViewPager.setCurrentItem(tab.getPosition());
@@ -61,38 +65,42 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
-}
 
-public class MainPagerAdapter extends FragmentStatePagerAdapter {
-    public MainPagerAdapter(FragmentManager fm){
-        super(fm);
-    }
+    public static class MainPagerAdapter extends FragmentStatePagerAdapter {
+        public MainPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+        //탭이 선택됐을 때 이동할 프래그먼트 선택
+        @Override
+        public Fragment getItem(int i) {
+            //Log.e("Fragment arrange", String.valueOf(i)); it's not increase linearly
+            switch (i) {
+                case 0:
+                    return new HomeSectionFragment();
+                case 1:
+                    return new BoxSectionFragment();
+                case 2:
+                    return new FavoriteSectionFragment();
+                case 3:
+                    return new PersonalSectionFragment();
+                default:
+                    return null;
+            }
+        }
 
-    @Override
-    public Fragment getItem(int i) {
-        switch(i){
-            case 0:
-                return new HomeSectionFragment();
-            case 1:
-                return new BoxSectionFragment();
-            case 2:
-                return new FavoriteSectionFragment();
-            case 3:
-                return new PersonalSectionFragment();
-            default:
-                return null;
+        @Override
+        public int getCount() {
+            return 4;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "Section" + (position + 1);
         }
     }
 
-    @Override
-    public int getCount() {
-        return 4;
-    }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return super.getPageTitle(position);
-    }
+////////////////////////각 프래그먼트 인플래이트 및 선언/////////////////////////////
 
     public static class HomeSectionFragment extends Fragment{
 
@@ -110,7 +118,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
         @Override
         public View onCreateView(LayoutInflater inflater,
                                  ViewGroup container, Bundle savedInstanceState){
-            View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_boxpage, container, false);
 
             return rootView;
         }
@@ -121,7 +129,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
         @Override
         public View onCreateView(LayoutInflater inflater,
                                  ViewGroup container, Bundle savedInstanceState){
-            View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_favorite, container, false);
 
             return rootView;
         }
@@ -132,12 +140,10 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
         @Override
         public View onCreateView(LayoutInflater inflater,
                                  ViewGroup container, Bundle savedInstanceState){
-            View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_personalpage, container, false);
 
             return rootView;
         }
     }
-
-
 }
 
