@@ -14,6 +14,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
@@ -108,6 +113,22 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public View onCreateView(LayoutInflater inflater,
                                  ViewGroup container, Bundle savedInstanceState){
             View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
+            /////리스트뷰 만들기
+            String[] foods = {"Bacon","Haa", "Tuna", "Candy", "Potato", "Bread"};
+            ListAdapter homeAdpater = new HomeAdpater(rootView.getContext(), foods);
+            ListView homeListView = (ListView) rootView.findViewById(R.id.homeListView);
+            homeListView.setAdapter(homeAdpater);
+
+            homeListView.setOnItemClickListener(
+                    new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            String food = String.valueOf(parent.getItemAtPosition(position));
+                            Toast.makeText(getActivity().getApplicationContext(), food, Toast.LENGTH_LONG).show();
+                        }
+                    }
+            );
 
             return rootView;
         }
