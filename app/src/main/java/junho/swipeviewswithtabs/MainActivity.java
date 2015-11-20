@@ -114,7 +114,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                                  ViewGroup container, Bundle savedInstanceState){
             View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-            /////리스트뷰 만들기
+            /////리스트뷰 만들기 (this 대신에 rootView를 통해 context 획득하였음)
             String[] foods = {"Bacon","Haa", "Tuna", "Candy", "Potato", "Bread"};
             ListAdapter homeAdpater = new HomeAdpater(rootView.getContext(), foods);
             ListView homeListView = (ListView) rootView.findViewById(R.id.homeListView);
