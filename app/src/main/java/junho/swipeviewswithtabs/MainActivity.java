@@ -10,15 +10,16 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
+
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
@@ -47,14 +48,29 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                getActionBar().setSelectedNavigationItem(position);
             }
         });
-        //액션바에 탭붙이기, 타이틀 설정
-        for (int i = 0; i < mMainPagerAdapter.getCount(); i++) {
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setIcon(R.drawable.mainpage_editorplus_send)
-                            //.setText(mMainPagerAdapter.getPageTitle(i))
-                            .setTabListener(this));
-        }
+        //액션바에 탭붙이기
+        actionBar.addTab(
+                actionBar.newTab()
+                        .setIcon(R.drawable.tab_home)
+                                //.setText(mMainPagerAdapter.getPageTitle(i))
+                        .setTabListener(this));
+        actionBar.addTab(
+                actionBar.newTab()
+                        .setIcon(R.drawable.tab_box)
+                                //.setText(mMainPagerAdapter.getPageTitle(i))
+                        .setTabListener(this));
+        actionBar.addTab(
+                actionBar.newTab()
+                        .setIcon(R.drawable.tab_favorite)
+                                //.setText(mMainPagerAdapter.getPageTitle(i))
+                        .setTabListener(this));
+        actionBar.addTab(
+                actionBar.newTab()
+                        .setIcon(R.drawable.tab_profile)
+                                //.setText(mMainPagerAdapter.getPageTitle(i))
+                        .setTabListener(this));
+
+
     }
 
 
@@ -115,20 +131,24 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
             /////리스트뷰 만들기 (this 대신에 rootView를 통해 context 획득하였음)
-            String[] foods = {"Bacon","Haa", "Tuna", "Candy", "Potato", "Bread"};
-            ListAdapter homeAdpater = new HomeAdpater(rootView.getContext(), foods);
-            ListView homeListView = (ListView) rootView.findViewById(R.id.homeListView);
-            homeListView.setAdapter(homeAdpater);
+            RecyclerView recyclerView=(RecyclerView)rootView.findViewById(R.id.recyclerview);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(rootView.getContext());
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(layoutManager);
 
-            homeListView.setOnItemClickListener(
-                    new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            String food = String.valueOf(parent.getItemAtPosition(position));
-                            Toast.makeText(getActivity().getApplicationContext(), food, Toast.LENGTH_LONG).show();
-                        }
-                    }
-            );
+            List<Home_item> items=new ArrayList<>();
+            Home_item[] item=new Home_item[5];
+            item[0]=new Home_item(R.drawable.drawer_profile,"This is how we created", R.drawable.mainpage_image, "김길동", "네이버", "2");
+            item[1]=new Home_item(R.drawable.drawer_profile,"This is how we created", R.drawable.mainpage_image, "홍길동", "스타트업", "3");
+            item[2]=new Home_item(R.drawable.drawer_profile,"This is how we created", R.drawable.mainpage_image, "박길동", "좋은지식", "0");
+            item[3]=new Home_item(R.drawable.drawer_profile,"This is how we created", R.drawable.mainpage_image, "최길동", "벤쳐스퀘어", "0");
+            item[4]=new Home_item(R.drawable.drawer_profile,"This is how we created", R.drawable.mainpage_image, "동동", "서울시챌린지1000", "23");
+
+            for(int i = 0; i < 5; i++) {
+                items.add(item[i]);
+            }
+
+            recyclerView.setAdapter(new RecyclerAdapter(rootView.getContext(), items, R.layout.activity_main));
 
             return rootView;
         }

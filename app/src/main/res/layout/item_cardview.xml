@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardview"
+        card_view:cardCornerRadius="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:id="@+id/home_profileImage"
+                android:layout_margin="5dp"
+                android:src="@drawable/drawer_profile" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Here is explanation"
+                android:id="@+id/home_insightText"
+                android:layout_gravity="right"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/home_profileImage"
+                android:layout_marginStart="20dp"
+                android:layout_margin="5dp" />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#39c0c0c0"
+                android:layout_alignParentStart="true"
+                android:id="@+id/view"
+                android:layout_below="@+id/home_profileImage" />
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:id="@+id/home_urlImage"
+                android:layout_toEndOf="@android:id/tabs"
+                android:layout_margin="5dp"
+                android:layout_below="@+id/home_profileImage" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/home_likeImage"
+                android:src="@drawable/mainpage_bookmark_checked"
+                android:layout_alignBottom="@+id/home_urlImage"
+                android:layout_toStartOf="@+id/home_likeNum" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="12"
+                android:id="@+id/home_likeNum"
+                android:layout_marginEnd="19dp"
+                android:textColor="#25a599"
+                android:layout_alignBottom="@+id/home_urlImage"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="name"
+                android:id="@+id/home_urlWriter"
+                android:layout_alignTop="@+id/view"
+                android:layout_alignStart="@+id/home_insightText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Medium Text"
+                android:id="@+id/home_urltitleText"
+                android:layout_above="@+id/home_likeNum"
+                android:layout_alignStart="@+id/home_urlWriter" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
