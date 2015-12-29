@@ -16,12 +16,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+    protected final String TAG = getClass().getSimpleName();
+    private RetainedAppData mRetainedAppData;
 
     MainPagerAdapter mMainPagerAdapter;
     ViewPager mViewPager;
@@ -45,7 +50,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-               getActionBar().setSelectedNavigationItem(position);
+                getActionBar().setSelectedNavigationItem(position);
             }
         });
         //액션바에 탭붙이기
@@ -70,8 +75,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                                 //.setText(mMainPagerAdapter.getPageTitle(i))
                         .setTabListener(this));
 
+        //data 가져옴
+            mRetainedAppData = new RetainedAppData();
+            mRetainedAppData.runRetrofitTestAsync(5, 1, 5);
 
-    }
+
+        Toast.makeText(getApplicationContext(), "login success", Toast.LENGTH_LONG).show();
+
+        }
+
 
 
     @Override
@@ -151,7 +163,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             recyclerView.setAdapter(new RecyclerAdapter(rootView.getContext(), items, R.layout.activity_main));
 
             return rootView;
+
         }
+
+
     }
 
     public static class BoxSectionFragment extends Fragment{
