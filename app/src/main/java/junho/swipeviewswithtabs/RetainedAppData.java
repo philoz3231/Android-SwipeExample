@@ -1,7 +1,9 @@
 package junho.swipeviewswithtabs;
 
 import android.util.Log;
-import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -12,13 +14,18 @@ import retrofit.client.Response;
  */
 public class RetainedAppData {
     protected final String TAG = getClass().getSimpleName();
-    public urlListData mData; // urlList data received, private에서 public으로 일단 바꿈
+    protected List<urlListData> mDatas;
     private GetUrlListRestAdapter mGetUrlListRestAdapter; //REST Adapter
-    private Callback<urlListData> mUrlListDataCallback = new Callback<urlListData>(){
+    private Callback<MainServerData<List<urlListData>>> mUrlListDataCallback = new Callback<MainServerData<List<urlListData>>>(){
+
         @Override
-        public void success(urlListData data, Response response){
-            Log.d(TAG, "retain data success" + data.toString());
-            mData = data;
+        public void success(MainServerData<List<urlListData>> data, Response response){
+            Log.d(TAG, data.message);
+            mDatas = data.object;
+            //Log.d(TAG, urlListDatas.get(0).toString());
+
+            urlListDataControlloer.urlListSources = (ArrayList<urlListData>)mDatas;
+
         }
         @Override
         public void failure(RetrofitError error) {
@@ -44,3 +51,4 @@ public class RetainedAppData {
         mGetUrlListRestAdapter.testUrlListApi(usrKey, startNum, urlNum, mUrlListDataCallback); // Call Async API
     }
 }
+

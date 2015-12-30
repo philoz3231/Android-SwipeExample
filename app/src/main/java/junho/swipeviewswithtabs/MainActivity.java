@@ -26,7 +26,6 @@ import java.util.List;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
     protected final String TAG = getClass().getSimpleName();
-    private RetainedAppData mRetainedAppData;
 
     MainPagerAdapter mMainPagerAdapter;
     ViewPager mViewPager;
@@ -74,13 +73,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                         .setIcon(R.drawable.tab_profile)
                                 //.setText(mMainPagerAdapter.getPageTitle(i))
                         .setTabListener(this));
-
-        //data 가져옴
-            mRetainedAppData = new RetainedAppData();
-            mRetainedAppData.runRetrofitTestAsync(5, 1, 5);
-
-
-        Toast.makeText(getApplicationContext(), "login success", Toast.LENGTH_LONG).show();
 
         }
 
@@ -137,6 +129,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     public static class HomeSectionFragment extends Fragment{
 
+        private RetainedAppData mRetainedAppData;
+
         @Override
         public View onCreateView(LayoutInflater inflater,
                                  ViewGroup container, Bundle savedInstanceState){
@@ -148,8 +142,22 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(layoutManager);
 
+
             List<Home_item> items=new ArrayList<>();
-            Home_item[] item=new Home_item[5];
+
+            //data 가져옴
+            mRetainedAppData = new RetainedAppData();
+            //서버와 연결하는 메소드 구현
+            mRetainedAppData.runRetrofitTestAsync(5, 1, 5);
+            String urlTitle;
+
+            if(urlListDataControlloer.urlListSources != null){
+                urlTitle = urlListDataControlloer.urlListSources.get(0).getUrlTitle();
+                Toast.makeText(rootView.getContext(), urlTitle, Toast.LENGTH_SHORT).show();
+            }
+
+
+            Home_item[] item = new Home_item[5];
             item[0]=new Home_item(R.drawable.drawer_profile,"This is how we created", R.drawable.mainpage_image, "김길동", "네이버", "2");
             item[1]=new Home_item(R.drawable.drawer_profile,"This is how we created", R.drawable.mainpage_image, "홍길동", "스타트업", "3");
             item[2]=new Home_item(R.drawable.drawer_profile,"This is how we created", R.drawable.mainpage_image, "박길동", "좋은지식", "0");
@@ -165,6 +173,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             return rootView;
 
         }
+
 
 
     }

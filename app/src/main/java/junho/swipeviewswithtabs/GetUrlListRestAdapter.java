@@ -2,6 +2,11 @@ package junho.swipeviewswithtabs;
 
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.List;
+
 import retrofit.Callback;
 import retrofit.RestAdapter;
 
@@ -24,7 +29,7 @@ public class GetUrlListRestAdapter {
         Log.d(TAG, "GetUrlListRestAdapter -- created");
     }
 
-    public void testUrlListApi(int usrKey, int startNum, int urlNum, Callback<urlListData> callback){
+    public void testUrlListApi(int usrKey, int startNum, int urlNum, Callback<MainServerData<List<urlListData>>> callback){
         Log.d(TAG, "testUrlListApi for usrKey:" + usrKey + " startNum: " + startNum + " urlNum: " + urlNum);
         mApi.getUrlListFromApi(usrKey, startNum, urlNum, callback);
     }

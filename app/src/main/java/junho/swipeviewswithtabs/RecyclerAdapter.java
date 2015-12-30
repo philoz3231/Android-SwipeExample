@@ -52,7 +52,8 @@ import java.util.List;
             holder.cardview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, item.getHomeUrltitleText(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, item.getHomeUrltitleText(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, urlListDataControlloer.urlListSources.get(0).getUrlTitle(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
